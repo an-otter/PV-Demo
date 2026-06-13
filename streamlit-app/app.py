@@ -7,7 +7,6 @@ import joblib
 import plotly.graph_objects as go
 from datetime import date, timedelta
 
-# Pfad absolut absichern
 BASE_DIR = Path(__file__).resolve().parent 
 
 LAT, LON = 52.22, 13.20
@@ -19,7 +18,6 @@ st.set_page_config(page_title="PV-Ertragsprognose", page_icon="☀️", layout="
 
 @st.cache_resource
 def lade_modell():
-    # KORREKTUR 1: BASE_DIR eingebaut
     paket = joblib.load(BASE_DIR / "pv_modell_deploy.pkl")
     return paket["modell"], paket["features"]
 
@@ -60,7 +58,6 @@ with links:
 
 fallback_auto = False
 if demo_modus:
-    # KORREKTUR 2: BASE_DIR eingebaut
     wetter = pd.read_csv(BASE_DIR / "demo_wetter.csv", index_col=0, parse_dates=True)
     quelle = "Demo-Daten (manuell gewählt)"
 else:
@@ -68,7 +65,6 @@ else:
         wetter = hole_wetter(gewaehlter_tag)
         quelle = "Live-Wettervorhersage (aus Open-Meteo API)"
     except Exception:
-        # KORREKTUR 3: BASE_DIR eingebaut
         wetter = pd.read_csv(BASE_DIR / "demo_wetter.csv", index_col=0, parse_dates=True)
         quelle = "Demo-Daten (Backup für Live-Abruf fehlgeschlagen)"
         fallback_auto = True
@@ -92,15 +88,14 @@ with rechts:
 
 fig = go.Figure(go.Scatter(
     x=erg.index, y=erg["kWh"], mode="lines",
-    line=dict(color="steelblue", width=3.5), # Sattes Steelblue für Modell B
+    line=dict(color="steelblue", width=3.5), 
     fill="tozeroy", fillcolor="rgba(70, 130, 180, 0.2)"))
 
 fig.update_layout(
     template="plotly_white",
-    title=dict(text="Stündlicher PV-Ertrag (Uhrzeit)", font=dict(size=24, color="#000000")), # Titel Schwarz & größer
-    font=dict(size=16, color="#000000"), # Globale Schrift auf Schwarz
+    title=dict(text="Stündlicher PV-Ertrag (Uhrzeit)", font=dict(size=24, color="#000000")),
+    font=dict(size=16, color="#000000"),
     
-    # X-Achse: Titel, Zahlen und die feine Achsenlinie komplett Schwarz
     xaxis=dict(
         title=dict(text="Uhrzeit", font=dict(size=20, color="#000000")), 
         tickfont=dict(size=16, color="#000000"),
@@ -108,7 +103,6 @@ fig.update_layout(
         linewidth=1
     ),
     
-    # Y-Achse: Titel, Zahlen und die feine Achsenlinie komplett Schwarz + starrer Bereich
     yaxis=dict(
         title=dict(text="Ertrag (kWh/h)", font=dict(size=20, color="#000000")), 
         tickfont=dict(size=16, color="#000000"),
@@ -125,16 +119,13 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# DIAGRAMM 2: GLOBALSTRAHLUNG (NEU DRUNTER)
-# ==========================================
-st.write("---") # Trennlinie für optische Sauberkeit
+st.write("---")
 st.subheader("☀️ Der Modell-Treiber: Prognostizierte Solarstrahlung")
 st.caption("Verlauf der Globalstrahlung (Kurzwellige Einstrahlung) aus den Wetterdaten für denselben Zeitraum.")
 
-# In der API heißt das Feld 'shortwave_radiation' -> das ist die Globalstrahlung
 fig_strahlung = go.Figure(go.Scatter(
     x=wetter.index, y=wetter["shortwave_radiation"], mode="lines",
-line=dict(color="#DAA520", width=3.5), # "Goldenrod" / Dunkles Gold für maximalen Beamer-Kontrast
+line=dict(color="#DAA520", width=3.5), 
     fill="tozeroy", fillcolor="rgba(218, 165, 32, 0.15)"))
 
 fig_strahlung.update_layout(
@@ -150,7 +141,6 @@ fig_strahlung.update_layout(
         title=dict(text="Einstrahlung (W/m²)", font=dict(size=18, color="#000000")), 
         tickfont=dict(size=14, color="#000000"),
         linecolor="#000000", linewidth=1
-        # Keine feste Range, da Strahlung im Sommer weit über 800 W/m² gehen kann
     ),
     height=420, margin=dict(l=10, r=10, t=50, b=10),
     plot_bgcolor="white", paper_bgcolor="white"
