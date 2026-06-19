@@ -120,7 +120,7 @@ st.plotly_chart(fig_strahlung, use_container_width=True)
 st.write("---")
 st.subheader("📈 Das Ergebnis: der Stromertrag")
 
-k1, k2, k3, k4 = st.columns(5)
+k1, k2, k3, k4 = st.columns(4)
 k1.metric("Tagesertrag (Prognose)", f"{tagesertrag:.1f} kWh")
 k2.metric("Versorgt einen Haushalt", f"{haushalt_tage:.1f} Tage")
 k3.metric("Spitzenstunde", f"{erg['kWh'].idxmax():%H:%M} Uhr")
