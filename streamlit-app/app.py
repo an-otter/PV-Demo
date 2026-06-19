@@ -146,11 +146,11 @@ st.write("---")
 st.subheader(f"🔌 Was steckt in diesen {tagesertrag:.0f} kWh?")
 st.caption("Damit könntest du an diesem Tag rein rechnerisch …")
 
-v1, v2, v3, v4, v5 = st.columns(5)
+v1, v2, v3, v4, v5 = st.columns(4)
 v1.metric("🧺 Waschmaschine", f"{de(tagesertrag / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
 v2.metric("🍽️ Geschirrspüler", f"{de(tagesertrag / KWH_GESCHIRR)}×", help="ca. 1,2 kWh je Spülgang")
 v3.metric("🚗 E-Auto fahren", f"{de(tagesertrag / KWH_EAUTO_KM)} km", help="ca. 16 kWh / 100 km")
-v5.metric("Strom-Gegenwert", f"{tagesertrag * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
+v4.metric("Strom-Gegenwert", f"{tagesertrag * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
 
 st.caption("Veranschaulichung der **erzeugten** Strommenge anhand von Durchschnittswerten – "
            "keine Aussage über den tatsächlichen Verbrauch der Anlage.")
