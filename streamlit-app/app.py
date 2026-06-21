@@ -152,7 +152,7 @@ s1, s2, s3, s4 = st.columns(4)
 s1.metric("👕 Waschmaschine", f"{de(spitze / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
 s2.metric("🍽️ Geschirrspüler", f"{de(spitze / KWH_GESCHIRR)}×", help="ca. 1,2 kWh je Spülgang")
 s3.metric("🚗 E-Auto fahren", f"{de(spitze / KWH_EAUTO_KM)} km", help="ca. 16 kWh / 100 km")
-s4.metric("Strom-Gegenwert", f"{tagesertrag * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
+s4.metric("Strom-Gegenwert", f"{spitze * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
 
 # Tag
 st.write("---")
