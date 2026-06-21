@@ -145,7 +145,7 @@ st.plotly_chart(fig, use_container_width=True)
 spitze = float(prognose.max())
 
 st.write("---")
-st.subheader(f"🔌 In der Spitzenstunde ({spitze:.1f} kWh) steckt genug für …")
+st.subheader(f"🔌 In der {spitze:.0f} kWh Spitzenstunde steckt genug für …")
 st.caption("Energie der ertragsstärksten Stunde – in das man Stromverbraucher legen würde, weil ...")
 
 s1, s2, s3, s4 = st.columns(4)
@@ -156,7 +156,7 @@ s4.metric("Strom-Gegenwert", f"{spitze * 0.37:.2f} €", help="grob mit 0,37 €
 
 # Tag
 st.write("---")
-st.subheader(f"🔌 Was steckt in diesen {tagesertrag:.0f} kWh insgesamt?")
+st.subheader(f"🔌 Und was bringen dann {tagesertrag:.0f} kWh insgesamt?")
 st.caption("Damit könnte man an diesem Tag theoretisch …")
 
 v1, v2, v3, v4, = st.columns(4)
