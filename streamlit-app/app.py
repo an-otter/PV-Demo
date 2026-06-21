@@ -57,7 +57,7 @@ def baue_features(wetter: pd.DataFrame) -> pd.DataFrame:
 
 
 def de(n: float) -> str:
-    """Ganzzahl mit deutschem Tausenderpunkt."""
+    """Ganzzahl"""
     return f"{n:,.0f}".replace(",", ".")
 
 
@@ -118,7 +118,7 @@ fig_strahlung.update_layout(
 st.plotly_chart(fig_strahlung, use_container_width=True)
 
 st.write("---")
-st.subheader("📈 Das Ergebnis: der Stromertrag")
+st.subheader("📈 Die Prognose: der Stromertrag")
 
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Tagesertrag (Prognose)", f"{tagesertrag:.1f} kWh")
@@ -132,7 +132,7 @@ fig = go.Figure(go.Scatter(
     fill="tozeroy", fillcolor="rgba(70, 130, 180, 0.2)"))
 fig.update_layout(
     template="plotly_white",
-    title=dict(text=f"So viel Strom macht das Dach am {datum_label}", font=dict(size=24, color="#000000")),
+    title=dict(text=f"So viel Strom erwartet unser Modell am {datum_label}", font=dict(size=24, color="#000000")),
     font=dict(size=16, color="#000000"),
     xaxis=dict(title=dict(text="Uhrzeit", font=dict(size=20, color="#000000")),
                tickfont=dict(size=16, color="#000000"), linecolor="#000000", linewidth=1),
@@ -144,7 +144,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.write("---")
 st.subheader(f"🔌 Was steckt in diesen {tagesertrag:.0f} kWh?")
-st.caption("Damit könntest du an diesem Tag rein rechnerisch …")
+st.caption("Damit könnte man an diesem Tag theoretisch …")
 
 v1, v2, v3, v4, = st.columns(4)
 v1.metric("🧺 Waschmaschine", f"{de(tagesertrag / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
