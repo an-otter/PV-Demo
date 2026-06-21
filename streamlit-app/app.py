@@ -120,11 +120,10 @@ st.plotly_chart(fig_strahlung, use_container_width=True)
 st.write("---")
 st.subheader("📈 Die Prognose: der Stromertrag")
 
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Tagesertrag (Prognose)", f"{tagesertrag:.1f} kWh")
-k2.metric("Versorgt einen Haushalt", f"{haushalt_tage:.1f} Tage")
-k3.metric("Spitzenstunde", f"{erg['kWh'].idxmax():%H:%M} Uhr")
-k4.metric("Spitzen-Ertrag (1 h)", f"{prognose.max():.1f} kWh")
+k1, k2, k3, = st.columns(3)
+k1.metric("Tagesertrag insgesamt", f"{tagesertrag:.1f} kWh")
+k2.metric("Spitzenstunde", f"{erg['kWh'].idxmax():%H:%M} Uhr")
+k3.metric("Spitzen-Ertrag (innerhalb 1h)", f"{prognose.max():.1f} kWh")
 
 fig = go.Figure(go.Scatter(
     x=x_berlin, y=erg["kWh"], mode="lines",
@@ -142,12 +141,26 @@ fig.update_layout(
     plot_bgcolor="white", paper_bgcolor="white")
 st.plotly_chart(fig, use_container_width=True)
 
+# Stunde
+spitze = float(prognose.max())
+
 st.write("---")
-st.subheader(f"🔌 Was steckt in diesen {tagesertrag:.0f} kWh?")
+st.subheader(f"🔌 In der Spitzenstunde ({spitze:.1f} kWh) steckt genug für …")
+st.caption("Energie der ertragsstärksten Stunde – in das man Stromverbraucher legen würde, weil ...")
+
+s1, s2, s3, s4 = st.columns(4)
+s1.metric("👕 Waschmaschine", f"{de(spitze / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
+s2.metric("🍽️ Geschirrspüler", f"{de(spitze / KWH_GESCHIRR)}×", help="ca. 1,2 kWh je Spülgang")
+s3.metric("🚗 E-Auto fahren", f"{de(spitze / KWH_EAUTO_KM)} km", help="ca. 16 kWh / 100 km")
+s4.metric("Strom-Gegenwert", f"{tagesertrag * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
+
+# Tag
+st.write("---")
+st.subheader(f"🔌 Was steckt in diesen {tagesertrag:.0f} kWh insgesamt?")
 st.caption("Damit könnte man an diesem Tag theoretisch …")
 
 v1, v2, v3, v4, = st.columns(4)
-v1.metric("🧺 Waschmaschine", f"{de(tagesertrag / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
+v1.metric("👕 Waschmaschine", f"{de(tagesertrag / KWH_WASCHMASCHINE)}×", help="ca. 0,8 kWh je 60°C-Ladung")
 v2.metric("🍽️ Geschirrspüler", f"{de(tagesertrag / KWH_GESCHIRR)}×", help="ca. 1,2 kWh je Spülgang")
 v3.metric("🚗 E-Auto fahren", f"{de(tagesertrag / KWH_EAUTO_KM)} km", help="ca. 16 kWh / 100 km")
 v4.metric("Strom-Gegenwert", f"{tagesertrag * 0.37:.2f} €", help="grob mit 0,37 €/kWh – nur Größenordnung, abhängig von Eigenverbrauch/Einspeisung")
